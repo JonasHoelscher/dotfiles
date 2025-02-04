@@ -63,10 +63,10 @@ bindsym $mod+d exec --no-startup-id dmenu_run
 # bindcode $mod+40 exec --no-startup-id i3-dmenu-desktop
 
 # change focus
-bindsym $mod+j focus left
-bindsym $mod+k focus down
-bindsym $mod+l focus up
-bindsym $mod+semicolon focus right
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
 
 # alternatively, you can use the cursor keys:
 bindsym $mod+Left focus left
@@ -75,10 +75,10 @@ bindsym $mod+Up focus up
 bindsym $mod+Right focus right
 
 # move focused window
-bindsym $mod+Shift+j move left
-bindsym $mod+Shift+k move down
-bindsym $mod+Shift+l move up
-bindsym $mod+Shift+colon move right
+bindsym $mod+Shift+h lmove left
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+l move right
 
 # alternatively, you can use the cursor keys:
 bindsym $mod+Shift+Left move left
@@ -87,7 +87,7 @@ bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
 
 # split in horizontal orientation
-bindsym $mod+h split h
+bindsym $mod+g split h
 
 # split in vertical orientation
 bindsym $mod+v split v
@@ -116,7 +116,7 @@ bindsym $mod+a focus parent
 # We use variables to avoid repeating the names in multiple places.
 set $ws1 "1:  Chrome"
 set $ws2 "2:  Terminal"
-set $ws3 "3: Discord"
+set $ws3 "3: "
 set $ws4 "4"
 set $ws5 "5"
 set $ws6 "6"
@@ -219,6 +219,8 @@ bindsym $mod+x exec /home/$USER/.config/scripts/lock
 for_window [class="Google-chrome"] move to workspace $ws1
 for_window [class="Alacritty"] move to workspace $ws2
 for_window [class="discord"] move to workspace $ws3
+for_window [class="Matplotlib"] floating enable
+for_window [class="spectacle"] floating enable
 
 # Transparency with picom compositor
 exec_always picom -f
@@ -255,11 +257,8 @@ set $mode_gaps_left Left Gaps: +|-|0 (local), Shift + +|-|0 (global)
 exec_always --no-start-up-id picom -b
 
 # Set mouse acceleration
-exec "xinput --set-prop 9 'libinput Accel Speed' -0.5"
+exec_always "xinput --set-prop 'pointer:Kingston HyperX Pulsefire Haste' 'libinput Accel Speed' -0.35"
 
-# Set keymap
-exec_always --no-startup-id setxkbmap de -option caps:ctrl_modifier
-
-# Set nodejs and npm
-exec_always --no-startup-id nvm use --lts
+# Set keyboard layout
+exec_always "setxkbmap de -option caps:ctrl_modifier"
 

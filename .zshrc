@@ -50,6 +50,18 @@ then
   fi
 fi
 
+# enable color support of ls and also add handy aliases
+if [ -x /usr/bin/dircolors ]; then
+    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+    alias ls='ls --color=auto'
+    #alias dir='dir --color=auto'
+    #alias vdir='vdir --color=auto'
+
+    alias grep='grep --color=auto'
+    alias fgrep='fgrep --color=auto'
+    alias egrep='egrep --color=auto'
+fi
+
 # less
 alias lessn="less -N"
 
@@ -76,34 +88,4 @@ alias t="tmux"
 alias ta="t a -t"
 alias tls="t ls"
 alias tn="t new -t"
-
-# Environment variables
-export PATH="~/anaconda3/bin/:$PATH"
-export PATH="/usr/local/texlive/2024/bin/x86_64-linux/:$PATH"
-export PATH="/opt/nvim-linux64/bin/:$PATH"
-export PATH="/opt/paraview/bin/:$PATH"
-export PATH="/opt/gmsh-4.13.1/bin/:$PATH"
-export PATH="~/.local/share/yabridge/:$PATH"
-
-# Set locale
-export LANG=en_US.UTF-8
-export LC_ALL=en_US.UTF-8
-
-# Set editor
-export EDITOR=/opt/nvim-linux64/bin/nvim
-
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/home/jonash/anaconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    eval "$__conda_setup"
-else
-    if [ -f "/home/jonash/anaconda3/etc/profile.d/conda.sh" ]; then
-        . "/home/jonash/anaconda3/etc/profile.d/conda.sh"
-    else
-        export PATH="/home/jonash/anaconda3/bin:$PATH"
-    fi
-fi
-unset __conda_setup
-# <<< conda initialize <<<
 
