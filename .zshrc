@@ -30,6 +30,9 @@ bindkey "^[[B" history-beginning-search-forward-end
 bindkey "^[OA" history-beginning-search-backward-end
 bindkey "^[OB" history-beginning-search-forward-end
 
+bindkey "^[[1;5C" forward-word
+bindkey "^[[1;5D" backward-word
+
 # Keep 5000 lines of history within the shell and save it to $HOME/.zsh_history:
 HISTSIZE=5000
 SAVEHIST=5000
