@@ -6,7 +6,7 @@ opacity=0.8
 decorations="none"
 
 [font]
-size = 10.0
+size = 10
 normal = { family = "JetBrainsMono Nerd Font", style = "Regular"}
 
 [colors.primary]
