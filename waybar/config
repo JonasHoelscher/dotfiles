@@ -11,23 +11,29 @@
     //"network",
     "cpu",
     "memory",
-    "custom/vpn",
+    "disk",
+    //"custom/vpn",
     "tray"
   ],
 
+  "disk": {
+    "interval": 30,
+    "format": "{specific_used:0.2f} GB / {specific_total:0.2f} GB",
+    "unit": "GB"
+  },
+
   "wlr/taskbar": {
-	"format": "{icon} {app_id}",
-	"icon-size": 14,
-	"icon-theme": "Papirus",
-	"tooltip-format": "{title}",
-	"on-click": "activate",
-	"on-click-middle": "close",
-  "on-click-right": "minimize-raise",
-	"ignore-list": [
-	    "kitty"
-	],
-	"app_ids-mapping": {
-	}
+    "format": "{icon} {app_id}",
+    "icon-size": 14,
+    "icon-theme": "Papirus",
+    "tooltip-format": "{title}",
+    "on-click": "activate",
+    "on-click-middle": "close",
+    "on-click-right": "minimize-raise",
+      "ignore-list": [
+      "kitty"
+    ],
+    "app_ids-mapping": {}
   },
   "wlr/workspaces": {
         "disable-scroll": true,
@@ -213,7 +219,8 @@
 
   "custom/vpn": {
     "format": " Connections",
-    "on-click": "nm-connection-editor"
+    "on-click": "nm-connection-editor",
+    "on-right-click": "~/Documents/utils/scripts/vpn_menu.sh menu"
   }
 
 }

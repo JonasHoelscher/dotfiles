@@ -20,7 +20,7 @@ tooltip {
   border-color: #1d2021;
 }
 #workspaces button {
-  padding: 0 0.4em;
+  padding: 0 1em;
   color: #504945;
   border-radius: 6px;
   margin-right: 2px;
@@ -63,6 +63,7 @@ tooltip {
 #cpu,
 #memory,
 #custom-vpn,
+#disk,
 #battery {
   background: #32302f;
   padding: 0 0.5em;
@@ -78,6 +79,11 @@ tooltip {
 }
 
 #network {
+  color: #ebdbb2;
+  margin-right: 6px;
+}
+
+#disk {
   color: #ebdbb2;
   margin-right: 6px;
 }
