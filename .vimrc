@@ -1,6 +1,6 @@
 " Set map leader
-let g:mapleader = ','
-let g:maplocalleader = ','
+nnoremap <SPACE> <Nop>
+let mapleader = "\<Space>"
 
 set nocompatible              " required
 filetype off                  " required
@@ -15,7 +15,6 @@ call vundle#begin()
 
 " let Vundle manage Vundle, required
 Plugin 'gmarik/Vundle.vim'
-Plugin 'tmhedberg/SimpylFold'
 Plugin 'scrooloose/nerdtree'
 Plugin 'tpope/vim-fugitive'
 Plugin 'tiagofumo/vim-nerdtree-syntax-highlight'
@@ -23,16 +22,10 @@ Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
 Plugin 'junegunn/vim-easy-align'
 Plugin 'ryanoasis/vim-devicons'
-" Plugin 'vim-scripts/indentpython.vim'
-Plugin 'Xuyuanp/nerdtree-git-plugin'
-" Plugin 'lervag/vimtex'
-Plugin 'PatrBal/vim-textidote'
-" Plugin 'neoclide/coc.nvim', {'branch': 'release'}
-Plugin 'sheerun/vim-polyglot'
-" Plugin 'sainnhe/sonokai'
-" Plugin 'Vimjas/vim-python-pep8-indent'
-Plugin 'wsdjeg/FlyGrep.vim'
+Plugin 'vim-scripts/indentpython.vim'
 Plugin 'morhetz/gruvbox'
+Plugin 'Vimjas/vim-python-pep8-indent'
+Plugin 'wsdjeg/FlyGrep.vim'
 " Plugin 'dense-analysis/ale'
 
 
@@ -75,40 +68,8 @@ set breakindent
 
 syntax on
 
-" Vimtex config
-filetype plugin indent on
-syntax enable
-let g:vimtex_view_general_viewer = 'okular'
-let g:vimtex_view_general_options = '--unique file:@pdf\#src:@line@tex'
-let g:vimtex_compiler_latexmk = {
-            \ 'options': [
-            \   '-verbose',
-            \   '-file-line-error',
-            \   '-synctex=1',
-            \   '-interaction=nonstopmode',
-            \   '-shell-escape'
-            \ ],
-    \}
-let g:vimtex_grammar_textidote = {
-            \ 'jar': '/home/jonash/.vim/textidote.jar',
-            \ 'args': '',
-            \}
 set spelllang=de,en
 set spell
-
-" Ale stuff (linter)
-let g:ale_linters = {
-            \   'python': ['flake8', 'pylint'],
-            \}
-
-" Execute python
-autocmd FileType python map <buffer> <F9> :w<CR>:exec '!python3' shellescape(@%, 1)<CR>
-autocmd FileType python imap <buffer> <F9> <esc>:w<CR>:exec '!python3' shellescape(@%, 1)<CR>
-
-" Coc stuff
-nnoremap <silent> K :call <SID>show_documentation()<CR>
-nmap <silent> gd <Plug>(coc-definition)
-nmap <leader>rn <Plug>(coc-rename)
 
 "split navigations
 nnoremap <C-J> <C-W><C-J>
@@ -144,12 +105,12 @@ let g:ctrlp_custom_ignore = {
 let g:ctrlp_working_path_mode = 'r'
 
 " Use a leader instead of the actual named binding
-nmap <leader>p :CtrlP<cr>
+nnoremap <Leader>p :CtrlP<CR>
 
 " Easy bindings for its various modes
-nmap <leader>bb :CtrlPBuffer<cr>
-nmap <leader>bm :CtrlPMixed<cr>
-nmap <leader>bs :CtrlPMRU<cr>
+nnoremap <Leader>bb :CtrlPBuffer<CR>
+nnoremap <Leader>bm :CtrlPMixed<CR>
+nnoremap <Leader>bs :CtrlPMRU<CR>
 
 " Farben für Spellcheck-Gruppen anpassen
 highlight SpellBad cterm=underline ctermfg=red guifg=#fb4934 guibg=NONE
@@ -166,3 +127,7 @@ highlight ExtraWhitespace ctermbg=red guibg=red
 match ExtraWhitespace /\s\+$/
 highlight BadWhitespace ctermbg=red guibg=red
 au BufRead,BufNewFile *.py,*.pyw,*.c,*.h match BadWhitespace /\s\+$/
+
+" NERDTree config
+let g:NERDTreeFileLines = 1
+nnoremap <Leader>e :NERDTreeToggle<CR>
