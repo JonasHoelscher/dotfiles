@@ -20,16 +20,13 @@ fi
 
 
 # Added by Toolbox App
-export PATH="$PATH:/home/jonash/.local/share/JetBrains/Toolbox/scripts"
 export PATH="/usr/local/texlive/2024/bin/x86_64-linux/:$PATH"
 
 # Other environment variables
 export PATH="~/anaconda3/bin/:$PATH"
 export PATH="/usr/local/texlive/2024/bin/x86_64-linux/:$PATH"
 export PATH="/opt/nvim-linux64/bin/:$PATH"
-export PATH="/opt/paraview/bin/:$PATH"
 export PATH="/opt/gmsh-4.13.1/bin/:$PATH"
-export PATH="~/.local/share/yabridge/:$PATH"
 
 # NVM
 export NVM_DIR="$HOME/.nvm"
