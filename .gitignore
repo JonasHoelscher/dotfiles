@@ -1,7 +1,9 @@
 # Vim files
-home/common/.vim/*
-!home/common/.vim/bundle/Vundle.vim
+home/common/.vim/**
+!home/common/.vim/bundle/Vundle.vim/
+!home/common/.vim/bundle/Vundle.vim/**
 
 # Tmux files
-home/common/.tmux/*
-!home/common/.tmux/plugins/tpm
+home/common/.tmux/**
+!home/common/.tmux/plugins/tpm/
+!home/common/.tmux/pluthins/tpm/**
