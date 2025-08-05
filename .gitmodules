@@ -1,3 +1,6 @@
 [submodule "pure"]
 	path = pure
 	url = https://github.com/JonasHoelscher/pure.git
+[submodule ".config/common/kickstart.nvim"]
+	path = .config/common/kickstart.nvim
+	url = https://github.com/JonasHoelscher/kickstart.nvim.git
