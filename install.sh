@@ -14,25 +14,32 @@ link_contents() {
     local type="$2"
 
     if [ ! -d "$source_dir" ]; then
-        echo "Directory not found $source_dir"
-        return [n]
+        return
     fi
 
     echo "Linking contents of $source_dir"
 
-    find "$source_dir" -mindepth 1 -print0 | while IFS= read -r -d '' src; do
+    find "$source_dir" -mindepth 1 -maxdepth 1 \( -type f -o -type d -o -type l \)| while IFS= read -r src; do
         rel_path="${src#$source_dir/}"
 
         # Get target path
         if [ "$type" = "home" ]; then
-            target="$HOME/$relpath"
+            target="$HOME/$rel_path"
         elif [ "$type" = "config" ]; then
-            target="$HOME/.config/$relpath"
+            target="$HOME/.config/$rel_path"
         else
             echo "Unknown parameter $type"
+            return
+        fi
 
         # Create folder if it does not exist
         mkdir -p "$(dirname "$target")"
+
+        # If the target already exists and is not a symlink remove it
+        if [ -e "$target" ] && [ ! -L "$target" ]; then
+            echo "Removing existing folder $target"
+        fi
+
 
         # Make symlink
         ln -sf "$src" "$target"
@@ -42,12 +49,12 @@ link_contents() {
 
 # Folders for current hostname
 common_home="$DOTFILES_DIR/home/common"
-common_config="$DOTFILES_DIR/.config/common"
 hostname_home="$DOTFILES_DIR/home/$HOSTNAME"
+common_config="$DOTFILES_DIR/.config/common"
 hostname_config="$DOTFILES_DIR/.config/$HOSTNAME"
 
 # Link folder contents to base or config folder
-link_contents common_home home
-link_contents common_config config
-link_contents hostname_home home
-link_contents hostname_config config
+link_contents $common_home home
+link_contents $hostname_home home
+link_contents $common_config config
+link_contents $hostname_config config
