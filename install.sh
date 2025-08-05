@@ -35,15 +35,15 @@ link_contents() {
         # Create folder if it does not exist
         mkdir -p "$(dirname "$target")"
 
-        # If the target already exists and is not a symlink remove it
+        # If the target already exists and is not a symlink, remove it
         if [ -e "$target" ] && [ ! -L "$target" ]; then
             echo "Removing existing folder $target"
+            rm -rf "$target"
         fi
-
 
         # Make symlink
         ln -sf "$src" "$target"
-        echo " -> $target"
+        echo "$target -> $src"
     done
 }
 
@@ -54,7 +54,7 @@ common_config="$DOTFILES_DIR/.config/common"
 hostname_config="$DOTFILES_DIR/.config/$HOSTNAME"
 
 # Link folder contents to base or config folder
-link_contents $common_home home
-link_contents $hostname_home home
-link_contents $common_config config
-link_contents $hostname_config config
+link_contents $common_home "home"
+link_contents $hostname_home "home"
+link_contents $common_config "config"
+link_contents $hostname_config "config"

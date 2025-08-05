@@ -1,5 +1,5 @@
 # Activate pure theme
-fpath+=$HOME/Documents/shell/pure
+fpath+=$HOME/dotfiles/pure
 autoload -U promptinit && promptinit && prompt pure
 
 # Prevents Pure from checking whether the current Git remote has been updated
