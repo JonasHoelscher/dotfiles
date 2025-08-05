@@ -1,0 +1,3 @@
+# Vim files
+home/common/.vim/*
+home/common/.vim/bundle/Vundle.vim
