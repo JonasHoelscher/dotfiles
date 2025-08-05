@@ -3,10 +3,24 @@
 set -e
 
 HOSTNAME=$(hostname -s)
-DOTFILES_DIR="${HOME}/dotfiles"
-SETUP_DIR="${DOTFILES_DIR}/setup"
+HOMEDIR=$HOME
 
-echo "Installing dotfiles for $HOST"
+# Read commandline arguments
+if [ $# -eq 2 ]; then
+    if [ ! -z "$1" ]; then
+        HOSTNAME=$1
+    fi
+
+    if [ ! -z "$2" ]; then
+        HOMEDIR=$2
+    fi
+fi
+
+# Create basic folder paths
+SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+DOTFILES_DIR="$SCRIPT_DIR/dotfiles"
+
+echo "Installing dotfiles for $HOSTNAME in $HOMEDIR"
 
 # Function to symlink folder contents
 link_contents() {
@@ -24,9 +38,9 @@ link_contents() {
 
         # Get target path
         if [ "$type" = "home" ]; then
-            target="$HOME/$rel_path"
+            target="$HOMEDIR/$rel_path"
         elif [ "$type" = "config" ]; then
-            target="$HOME/.config/$rel_path"
+            target="$HOMEDIR/.config/$rel_path"
         else
             echo "Unknown parameter $type"
             return
