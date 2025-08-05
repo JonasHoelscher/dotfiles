@@ -4,3 +4,9 @@
 [submodule "nvim"]
 	path = .config/common/nvim
 	url = https://github.com/JonasHoelscher/kickstart.nvim.git
+[submodule "vundle"]
+	path = home/common/.vim/bundle/Vundle.vim
+	url = https://github.com/VundleVim/Vundle.vim.git
+[submodule "tpm"]
+	path = home/common/.tmux/plugins/tpm
+	url = https://github.com/tmux-plugins/tpm.git
