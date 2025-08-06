@@ -270,6 +270,6 @@ set $mode_gaps_bottom Bottom Gaps: +|-|0 (local), Shift + +|-|0 (global)
 set $mode_gaps_left Left Gaps: +|-|0 (local), Shift + +|-|0 (global)
 
 # Set wallpapers
-exec_always feh --bg-scale --no-fehbg ~/Pictures/Background/gruv-portal-cake.png --screen 0
+exec_always feh --bg-scale --no-fehbg ~/Pictures/Background/gruv_night_moon.png --screen 0
 # exec_always feh --bg-scale --no-fehbg ~/Pictures/Background/debian_grey_swirl.png --screen 1
 
