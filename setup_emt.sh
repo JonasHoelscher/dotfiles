@@ -2,4 +2,4 @@
 
 set -e
 
-./install.sh $1 $2
+/home/sunrakuLOC/dotfiles/install.sh $1 $2

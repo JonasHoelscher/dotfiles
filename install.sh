@@ -17,8 +17,7 @@ if [ $# -eq 2 ]; then
 fi
 
 # Create basic folder paths
-SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
-DOTFILES_DIR="$SCRIPT_DIR/dotfiles"
+DOTFILES_DIR="$HOME/dotfiles"
 
 echo "Installing dotfiles for $HOSTNAME in $HOMEDIR"
 
