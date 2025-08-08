@@ -3,21 +3,16 @@
 set -e
 
 HOSTNAME=$(hostname -s)
-HOMEDIR=$HOME
+HOMEDIR="$HOME"
 
-# Read commandline arguments
+# Read command-line arguments
 if [ $# -eq 2 ]; then
-    if [ ! -z "$1" ]; then
-        HOSTNAME=$1
-    fi
-
-    if [ ! -z "$2" ]; then
-        HOMEDIR=$2
-    fi
+    [ -n "$1" ] && HOSTNAME="$1"
+    [ -n "$2" ] && HOMEDIR="$2"
 fi
 
 # Create basic folder paths
-DOTFILES_DIR="$HOME/dotfiles"
+DOTFILES_DIR="$HOMEDIR/dotfiles"
 
 echo "Installing dotfiles for $HOSTNAME in $HOMEDIR"
 
@@ -36,6 +31,7 @@ link_contents() {
         rel_path="${src#$source_dir/}"
 
         # Get target path
+        local target
         if [ "$type" = "home" ]; then
             target="$HOMEDIR/$rel_path"
         elif [ "$type" = "config" ]; then
@@ -43,6 +39,12 @@ link_contents() {
         else
             echo "Unknown parameter $type"
             return
+        fi
+
+        # Skip self-links
+        if [ "$src" = "$target" ]; then
+            echo "Skipping self-link: $src = $target"
+            continue
         fi
 
         # Create folder if it does not exist
@@ -55,7 +57,7 @@ link_contents() {
         fi
 
         # Make symlink
-        ln -sf "$src" "$target"
+        ln -snf "$src" "$target"
         echo "$target -> $src"
     done
 }
@@ -67,7 +69,7 @@ common_config="$DOTFILES_DIR/.config/common"
 hostname_config="$DOTFILES_DIR/.config/$HOSTNAME"
 
 # Link folder contents to base or config folder
-link_contents $common_home "home"
-link_contents $hostname_home "home"
-link_contents $common_config "config"
-link_contents $hostname_config "config"
+link_contents "$common_home" "home"
+link_contents "$hostname_home" "home"
+link_contents "$common_config" "config"
+link_contents "$hostname_config" "config"

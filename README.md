@@ -11,3 +11,7 @@ cd dotfiles
 The installation script checks the computers hostname and creates symlinks for the specific configs.
 The configs from the folder 'common' are always installed.
 
+## TODO
+
+Check if there are separate configurations in 'common' and 'hostname' and then
+prefer to use the one in 'hostname'
