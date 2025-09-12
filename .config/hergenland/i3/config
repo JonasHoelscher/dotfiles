@@ -126,9 +126,9 @@ set $ws8 "8"
 set $ws9 "9"
 set $ws10 "10:  Win11"
 
-workspace $ws1 output HDMI-1
-workspace $ws2 output HDMI-2
-workspace $ws3 output HDMI-2
+# workspace $ws1 output HDMI-1
+# workspace $ws2 output HDMI-2
+# workspace $ws3 output HDMI-2
 # workspace $ws4 output HDMI-2
 # workspace $ws5 output HDMI-1
 
@@ -243,7 +243,8 @@ client.unfocused        $darkgray $darkgray $yellow $purple $darkgray
 client.urgent           $red $red $white $red $reda
 
 # Remap Caps Lock to CTRL
-exec_always --no-startup-id setxkbmap eu -option caps:ctrl_modifier
+# exec_always --no-startup-id setxkbmap eu -option caps:ctrl_modifier
+exec_always --no-startup-id setxkbmap de -option caps:ctrl_modifier
 
 # Shortcut for Lockscreen
 bindsym $mod+x exec i3lock
