@@ -27,17 +27,25 @@ include /etc/sway/config-vars.d/*
 # package `sway-backgrounds`. Installing this package drops a config file to
 # /etc/sway/config.d/
 # output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
-#
-# Example configuration:
-#
+
+## Monitors
+# Laptop monitor
 output eDP-1 resolution 1920x1200
+set $laptop eDP-1
+bindswitch --reload --locked lid:on output $laptop disable
+bindswitch --reload --locked lid:off output $laptop enable
+exec_always ~/.config/sway/laptop_lid.sh
+
+# LG monitor (desk)
+output DP-10 resolution 1920x1200
+
+# HP monitor (desk)
+output DP-8 resolution 2560x1440
+
 #
 # You can get the names of your outputs by running: swaymsg -t get_outputs
 
 ### Idle configuration
-#
-# Example configuration:
-#
 exec swayidle -w \
          timeout 300 'swaylock -f -c 000000' \
          timeout 600 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
@@ -48,9 +56,8 @@ exec swayidle -w \
 # resumed. It will also lock your screen before your computer goes to sleep.
 
 ### Input configuration
-#
-# Example configuration:
-#
+
+# Laptop touchpad
 input "10182:3985:GXTP5440:00_27C6:0F91_Touchpad" {
     dwt enabled
     tap enabled
@@ -58,10 +65,18 @@ input "10182:3985:GXTP5440:00_27C6:0F91_Touchpad" {
     middle_emulation enabled
 }
 
+# Laptop keyboard
 input "1:1:AT_Translated_Set_2_keyboard" {
     xkb_layout de
     xkb_options caps:ctrl_modifier
 }
+
+# Keychron external keyboard
+input "13364:53296:Keychron__Keychron_Link__Keyboard" {
+    xkb_layout eu
+    xkb_options caps:ctrl_modifier
+}
+
 #
 # You can get the names of your inputs by running: swaymsg -t get_inputs
 # Read `man 5 sway-input` for more information about this section.
@@ -245,5 +260,8 @@ bar {
 
 # Set dark mode for gtk applications
 exec_always gsettings set org.gnome.desktop.interface color-scheme prefer-dark
+
+# Start nm-applet
+exec_always nm-applet
 
 include /etc/sway/config.d/*
