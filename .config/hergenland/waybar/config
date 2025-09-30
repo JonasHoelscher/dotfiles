@@ -1,9 +1,15 @@
 {
   "layer": "top",
   "position": "top",
-  "modules-left": ["sway/workspaces"],
+  "modules-left": ["sway/workspaces", "sway/mode"],
   "modules-center": [],
   "modules-right": ["network", "battery", "cpu", "memory", "clock", "tray"],
+  "height": 32,
+  "spacing": 10,
+
+  "sway/mode": {
+    "format": "{}"
+  },
 
   "clock": {
     "format": "{:%a %d.%m %H:%M:%S}"
@@ -16,7 +22,14 @@
   },
 
   "battery": {
-    "format": "{icon} {capacity}%"
+    "states": {
+        "good": 95,
+        "warning": 30,
+        "critical": 5
+    },
+    "format": "Battery {capacity}%",
+    "format-charging": "Battery {capacity} (charging)",
+    "format-plugged": "Battery {capacity} (plugged)"
   },
 
   "cpu": {
@@ -30,6 +43,7 @@
   },
 
   "tray": {
-    "icon-size": 20
+    "icon-size": 20,
+    "spacing": 8
   }
 }
