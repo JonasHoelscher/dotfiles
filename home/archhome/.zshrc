@@ -92,3 +92,5 @@ alias ta="t a -t"
 alias tls="t ls"
 alias tn="t new -t"
 
+# Environment variables
+export PKG_CONFIG_PATH=$HOME/Documents/utils/petsc/arch-linux-c-debug/lib/pkgconfig:$PKG_CONFIG_PATH
