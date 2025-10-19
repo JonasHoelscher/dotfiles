@@ -25,20 +25,12 @@ multiplier = 3
 size = 11
 
 [font.normal]
-family = "JetBrainsMono Nerd Font"
+family = "FiraCode Nerd Font"
 style = "Regular"
 
 [font.bold]
-family = "JetBrainsMono Nerd Font"
+family = "FiraCode Nerd Font Bold"
 style = "Bold"
-
-[font.italic]
-family = "JetBrainsMono Nerd Font"
-style = "Italic"
-
-[font.bold_italic]
-family = "JetBrainsMono Nerd Font"
-style = "Bold Italic"
 
 [selection]
 semantic_escape_chars = ",│`|:\"' ()[]{}<>\t"
