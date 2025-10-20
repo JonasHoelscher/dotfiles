@@ -49,6 +49,6 @@
 
   "sway/window": {
       "format": "{title}",
-      "max-length": 100
+      "max-length": 40
   }
 }
