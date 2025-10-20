@@ -5,19 +5,21 @@
 [keybindings]
 [profiles]
   [[default]]
-    allow_bold = False
-    background_color = "#282828"
-    cursor_fg_color = "#000000"
-    cursor_bg_color = "#865e3c"
-    font = JetBrainsMono Nerd Font Mono 13
-    foreground_color = "#ebdbb2"
+    background_color = "#080808"
+    background_darkness = 0.8
+    background_type = transparent
+    cursor_fg_color = "#080808"
+    cursor_bg_color = "#9e9e9e"
+    cursor_color_default = False
+    font = Fira Code 13
+    foreground_color = "#bdbdbd"
     scrollbar_position = hidden
-    palette = "#282828:#cc241d:#98971a:#d79921:#458588:#b16286:#689d6a:#a89984:#928374:#fb4934:#b8bb26:#fabd2f:#83a598:#d3869b:#8ec07c:#ebdbb2"
+    palette = "#282828:#ff5d5d:#8cc85f:#e3c78a:#74b2ff:#ae81ff:#85dc85:#949494:#928374:#fb4934:#b8bb26:#fabd2f:#83a598:#d3869b:#8ec07c:#ebdbb2"
     use_system_font = False
     bold_is_bright = True
     title_transmit_bg_color = "#c64600"
     title_use_system_font = False
-    title_font = JetBrainsMono Nerd Font 10
+    title_font = Fira Code 10
 [layouts]
   [[default]]
     [[[window0]]]
