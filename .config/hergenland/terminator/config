@@ -1,5 +1,4 @@
 [global_config]
-  borderless = True
   tab_position = bottom
   inactive_color_offset = 1.0
   disable_mouse_paste = True
@@ -27,4 +26,5 @@
     [[[child1]]]
       type = Terminal
       parent = window0
+      profile = default
 [plugins]
