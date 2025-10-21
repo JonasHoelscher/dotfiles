@@ -2,9 +2,9 @@
   "layer": "top",
   "position": "top",
   "modules-left": ["sway/workspaces", "sway/mode"],
-  "modules-center": [],
+  "modules-center": ["sway/window"],
   "modules-right": ["network", "battery", "cpu", "memory", "clock", "tray"],
-  "height": 32,
+  "height": 30,
   "spacing": 10,
 
   "sway/mode": {
@@ -43,7 +43,12 @@
   },
 
   "tray": {
-    "icon-size": 20,
-    "spacing": 8
+    "icon-size": 21,
+    "spacing": 10
+  },
+
+  "sway/window": {
+      "format": "{title}",
+      "max-length": 40
   }
 }

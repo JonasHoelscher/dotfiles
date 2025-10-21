@@ -104,3 +104,9 @@ export NVM_DIR="$HOME/.nvm"
 # Add to path
 export PATH=$PATH:$HOME/Documents/utils/binaries
 export PATH=$PATH:$HOME/.local/bin
+
+# Add PETSc variables
+export PKG_CONFIG_PATH=$HOME/Documents/utils/petsc/arch-linux-c-debug/lib/pkgconfig:$PKG_CONFIG_PATH
+export PETSC_DIR=$HOME/Documents/utils/petsc
+export PETSC_ARCH=arch-linux-c-debug
+export LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH
