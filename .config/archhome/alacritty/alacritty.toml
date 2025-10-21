@@ -29,7 +29,7 @@ family = "FiraCode Nerd Font"
 style = "Regular"
 
 [font.bold]
-family = "FiraCode Nerd Font Bold"
+family = "FiraCode Nerd Font"
 style = "Bold"
 
 [selection]
