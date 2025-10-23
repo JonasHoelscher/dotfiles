@@ -65,32 +65,8 @@ if [ -x /usr/bin/dircolors ]; then
     alias egrep='egrep --color=auto'
 fi
 
-# less
-alias lessn="less -N"
-
-# ls
-alias l='ls -lah'
-alias la='ls -lAh'
-alias ll='ls -lh'
-alias ls='ls -G'
-alias lsa='ls -lah'
-
-# exa
-alias e='exa -lh'
-alias ea='exa -lhGauUm'
-alias el='exa -lhG'
-
-# fd-find
-alias fd='fdfind'
-
-# du
-alias dus='du -hs'
-
-# tmux
-alias t="tmux"
-alias ta="t a -t"
-alias tls="t ls"
-alias tn="t new -t"
+alias ls='exa -lh'
+alias ff='fzf'
 
 # Uni aliases
 alias plutho-activate=". /opt/anaconda/bin/activate; conda activate ~/scratch/plutho-env"
