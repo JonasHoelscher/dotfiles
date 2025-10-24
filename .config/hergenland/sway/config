@@ -21,7 +21,7 @@ include /etc/sway/config.d/*
 # Startup
 #
 exec_always nm-applet
-exec_always swaybg --image /usr/share/wallpapers/SoftWaves/contents/images/1920x1080.svg
+exec_always swaybg --image ~/Pictures/Wallpapers/asus-rog-metropolis-3840x2160-19776.jpg
 # Set dark mode for gtk applications
 exec_always gsettings set org.gnome.desktop.interface color-scheme prefer-dark
 
@@ -38,10 +38,10 @@ bindswitch --reload --locked lid:off output $laptop enable
 exec_always ~/.config/sway/laptop_lid.sh
 
 # LG monitor (desk)
-output DP-10 resolution 1920x1200@60Hz
+output DP-10 resolution 1920x1200@60Hz pos 0 0
 
 # HP monitor (desk)
-output DP-8 resolution 2560x1440@60Hz
+output DP-8 resolution 2560x1440@60Hz pos 1920 0
 
 #
 # Idle configuration
