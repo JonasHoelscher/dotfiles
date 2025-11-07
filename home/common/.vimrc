@@ -111,7 +111,7 @@ let g:ctrlp_custom_ignore = {
 
 " Set colorscheme
 set background=dark
-colorscheme gruvbox
+colorscheme moonfly
 if has('termguicolors')
   set termguicolors
 endif
