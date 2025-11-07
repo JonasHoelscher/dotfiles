@@ -72,8 +72,13 @@ input "1:1:AT_Translated_Set_2_keyboard" {
     xkb_options caps:ctrl_modifier
 }
 
-# Keychron external keyboard
+# Keychron external keyboard (wifi)
 input "13364:53296:Keychron__Keychron_Link__Keyboard" {
+    xkb_layout eu
+    xkb_options caps:ctrl_modifier
+}
+# Keychron external keyboard (cable connected)
+input "13364:2356:Keychron_Keychron_V3_Max" {
     xkb_layout eu
     xkb_options caps:ctrl_modifier
 }

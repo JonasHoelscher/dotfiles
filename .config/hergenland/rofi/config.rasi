@@ -1,6 +1,6 @@
 configuration{
     modi: ["drun", "window", "run"];
-    font: "FiraCode";
+    font: "FiraCode 12";
     icon-theme: "Papirus-Dark";
     show-icons: true;
     terminal: "terminator";
