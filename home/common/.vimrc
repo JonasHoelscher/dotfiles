@@ -33,7 +33,7 @@ set number
 set relativenumber
 set breakindent
 syntax on
-set spelllang=de,en
+set spelllang=en
 set spell
 
 "split navigations
@@ -76,7 +76,7 @@ Plugin 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
 Plugin 'junegunn/vim-easy-align'
 Plugin 'ryanoasis/vim-devicons'
 Plugin 'vim-scripts/indentpython.vim'
-Plugin 'morhetz/gruvbox'
+Plugin 'bluz71/vim-moonfly-colors', { 'as': 'moonfly' }
 Plugin 'Vimjas/vim-python-pep8-indent'
 Plugin 'wsdjeg/FlyGrep.vim'
 
