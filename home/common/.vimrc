@@ -16,27 +16,36 @@ set autoindent
 set mouse=a
 set title
 set wildmenu
-set guifont=hack_nerd_font:h11
 set cc=79
 set ttyfast
 set complete-=i
 set termguicolors
-set expandtab
 set wrap
 set textwidth=79
 set formatoptions+=t
-set tabstop=4
-set shiftwidth=4
 set ruler
 set showmatch
 set number
 set relativenumber
 set breakindent
 syntax on
+
+" spelling
 set spelllang=en
 set spell
 
-"split navigations
+" indentation
+set expandtab
+set shiftwidth=4
+set tabstop=4
+set softtabstop=4
+set autoindent
+filetype plugin indent on
+
+" increase undo limit
+set history=1000
+
+" split navigations
 nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
@@ -69,16 +78,12 @@ call vundle#begin()
 " Let Vundle manage Vundle, required
 Plugin 'gmarik/Vundle.vim'
 Plugin 'scrooloose/nerdtree'
-Plugin 'tpope/vim-fugitive'
 Plugin 'tiagofumo/vim-nerdtree-syntax-highlight'
-Plugin 'ctrlpvim/ctrlp.vim'
-Plugin 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
-Plugin 'junegunn/vim-easy-align'
 Plugin 'ryanoasis/vim-devicons'
-Plugin 'vim-scripts/indentpython.vim'
+Plugin 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plugin 'junegunn/fzf.vim'
+Plugin 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
 Plugin 'bluz71/vim-moonfly-colors', { 'as': 'moonfly' }
-Plugin 'Vimjas/vim-python-pep8-indent'
-Plugin 'wsdjeg/FlyGrep.vim'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -88,9 +93,6 @@ filetype plugin indent on    " required
 " NERDTree config
 let g:NERDTreeFileLines = 1
 nnoremap <Leader>e :NERDTreeToggle<CR>
-
-" Flygrep
-nnoremap <Leader>f :FlyGrep<CR>
 
 " CtrlP configuration
 " Use a leader instead of the actual named binding
