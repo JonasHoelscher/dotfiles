@@ -1,6 +1,10 @@
 # Activate pure theme
 fpath+=$HOME/dotfiles/pure
 autoload -U promptinit && promptinit && prompt pure
+autoload -U compinit && compinit
+
+# Enavle completion for pipx
+eval "$(register-python-argcomplete pipx)"
 
 # Prevents Pure from checking whether the current Git remote has been updated
 PURE_GIT_PULL=0
@@ -77,3 +81,6 @@ export PETSC_ARCH=arch-linux-c-debug
 
 eval "$(zoxide init zsh)"
 rm ~/.zcompdump*; compinit
+
+# Created by `pipx` on 2025-12-12 20:11:26
+export PATH="$PATH:/home/jonas/.local/bin"
