@@ -1,9 +1,6 @@
 [submodule "pure"]
     path = pure
     url = https://github.com/JonasHoelscher/pure.git
-[submodule "nvim"]
-    path = .config/common/nvim
-    url = https://github.com/JonasHoelscher/kickstart.nvim.git
 [submodule "vundle"]
     path = home/common/.vim/bundle/Vundle.vim
     url = https://github.com/JonasHoelscher/Vundle.vim.git
