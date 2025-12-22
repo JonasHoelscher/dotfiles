@@ -45,6 +45,7 @@ vim.opt.listchars = { tab = "» ", trail = "·", nbsp = "␣" }
 vim.opt.updatetime = 300
 vim.opt.timeoutlen = 300
 vim.opt.clipboard = "unnamedplus"
+vim.opt.signcolumn = "yes"
 
 -- Highlight spaces at end of line
 vim.cmd([[highlight ExtraWhitespace ctermbg=red guibg=red]])
