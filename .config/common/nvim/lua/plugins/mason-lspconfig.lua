@@ -102,6 +102,7 @@ return {
 		local servers = {
 			-- C/C++
 			clangd = {},
+			cpptools = {},
 
 			-- Latex
 			ltex = {
