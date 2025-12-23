@@ -34,20 +34,26 @@ vim.opt.splitright = true
 vim.opt.splitbelow = true
 vim.opt.cursorline = true
 vim.opt.scrolloff = 4
+vim.opt.signcolumn = "yes"
+vim.opt.winwidth = 80
+
 --  Default settings for tabs
 --  Settings for all files except the ones listed in autocommands
 vim.opt.expandtab = true -- Tabs as spaces
 vim.opt.tabstop = 4
 vim.opt.shiftwidth = 4
 vim.opt.softtabstop = 4
+vim.opt.autoindent = true
+vim.opt.smartindent = true
+
 -- Show tabs as >>
 vim.opt.list = true
+
+-- Other settings
 vim.opt.listchars = { tab = "» ", trail = "·", nbsp = "␣" }
 vim.opt.updatetime = 300
 vim.opt.timeoutlen = 300
 vim.opt.clipboard = "unnamedplus"
-vim.opt.signcolumn = "yes"
-vim.opt.winwidth = 80
 vim.opt.equalalways = false
 
 -- Highlight spaces at end of line
