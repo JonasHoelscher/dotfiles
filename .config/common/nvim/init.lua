@@ -25,6 +25,7 @@ vim.cmd([[
 ]])
 
 -- Editor settings
+vim.opt.number = true
 vim.opt.relativenumber = true
 vim.opt.breakindent = true
 vim.opt.ignorecase = true -- Case insensitive searching
@@ -46,6 +47,8 @@ vim.opt.updatetime = 300
 vim.opt.timeoutlen = 300
 vim.opt.clipboard = "unnamedplus"
 vim.opt.signcolumn = "yes"
+vim.opt.winwidth = 80
+vim.opt.equalalways = false
 
 -- Highlight spaces at end of line
 vim.cmd([[highlight ExtraWhitespace ctermbg=red guibg=red]])
