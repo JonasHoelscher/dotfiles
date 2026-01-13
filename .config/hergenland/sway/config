@@ -39,10 +39,10 @@ bindswitch --reload --locked lid:off output $laptop enable
 exec_always ~/.config/sway/laptop_lid.sh
 
 # LG monitor (desk)
-output DP-10 resolution 1920x1200@60Hz pos 0 0
+output DP-9 resolution 1680x1050 pos 0 0
 
 # HP monitor (desk)
-output DP-8 resolution 2560x1440@60Hz pos 1920 0
+output DP-10 resolution 2560x1440@60Hz pos 1680 0
 
 #
 # Idle configuration
@@ -257,8 +257,6 @@ bar {
 #
 # Set corect mode for flameshot
 for_window [app_id="flameshot"] border pixel 0, floating enable, fullscreen disable, move absolute position 0 0
-for_window [app_id="org.kde.dolphin"] floating enable, move position center
-for_window [app_id="org.gnome.Nautilus"] floating enable, move position center
 
 #
 # Look and feel

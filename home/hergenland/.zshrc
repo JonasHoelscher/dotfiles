@@ -2,6 +2,9 @@
 fpath+=$HOME/dotfiles/pure
 autoload -U promptinit && promptinit && prompt pure
 
+# Change date format
+export LC_TIME=de_DE.UTF-8
+
 # Prevents Pure from checking whether the current Git remote has been updated
 PURE_GIT_PULL=0
 
