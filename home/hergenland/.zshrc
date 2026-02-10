@@ -13,11 +13,5 @@ export NVM_DIR="$HOME/.nvm"
 # Add to path
 export PATH=$PATH:$HOME/.local/bin
 
-# Add PETSc variables
-export PETSC_DIR=$HOME/Documents/utils/petsc
-export PETSC_ARCH=arch-linux-c-real-debug
-export PKG_CONFIG_PATH=$PETSC_DIR/$PETSC_ARCH/lib/pkgconfig:$PKG_CONFIG_PATH
-export PINCIC_BUILD_DIR=build/hergenland
-
 export LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH
 export QT_QPA_PLATFORM="xcb"
