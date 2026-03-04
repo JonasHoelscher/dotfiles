@@ -105,18 +105,7 @@ return {
 			cpptools = {},
 
 			-- Latex
-			ltex = {
-				settings = {
-					ltex = {
-						-- enabled = { 'tex', 'latex', 'markdown', 'restructuredtext' },
-						language = "en-US",
-						additionalRules = {
-							enablePickyRules = true,
-							motherTongue = "de",
-						},
-					},
-				},
-			},
+			ltex_plus = {},
 
 			-- Rust
 			rust_analyzer = {},
