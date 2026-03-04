@@ -43,15 +43,9 @@ vim.api.nvim_create_autocmd("FileType", {
 
 -- Vertical line for specific files
 vim.api.nvim_create_autocmd("FileType", {
-	pattern = { "python", "c", "cpp" },
+	pattern = { "python", "c", "cpp", "rust" },
 	callback = function()
 		vim.opt_local.colorcolumn = "80"
-	end,
-})
-vim.api.nvim_create_autocmd("FileType", {
-	pattern = { "rust" },
-	callback = function()
-		vim.opt_local.colorcolumn = "100"
 	end,
 })
 
