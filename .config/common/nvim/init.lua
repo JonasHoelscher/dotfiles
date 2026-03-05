@@ -61,6 +61,8 @@ vim.cmd([[highlight ExtraWhitespace ctermbg=red guibg=red]])
 vim.cmd([[match ExtraWhitespace /\s\+$/]])
 vim.cmd([[highlight BadWhitespace ctermbg=red guibg=red]])
 
+vim.o.autoread = true
+
 -- Load 'lazy' plugin manager
 require("config.lazy")
 
