@@ -79,3 +79,7 @@ vim.g.python_indent = {
   open_paren = "shiftwidth()",
   nested_paren = "shiftwidth()",
 }
+
+-- Treesitter stuff
+require('nvim-treesitter.install').prefer_git = false
+require('nvim-treesitter.install').compilers = { "clang", "gcc" }
