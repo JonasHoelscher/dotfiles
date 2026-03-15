@@ -14,6 +14,10 @@ vim.opt.laststatus = 2
 vim.opt.splitkeep = "screen"
 vim.opt.termguicolors = true
 vim.opt.signcolumn = "yes" -- Remove jumping of signcolumnn
+vim.cmd([[
+	filetype plugin indent on
+	syntax enable
+]])
 
 -- highlight trailing whitespace
 vim.cmd([[highlight ExtraWhitespace ctermbg=red guibg=red]])
@@ -69,7 +73,8 @@ require("lazy").setup({
 			},
 			spec = {
 				{ "<leader>s", group = "[S]earch" },
-				{ "<leader>d", group = "[D]ocument" }
+				{ "<leader>d", group = "[D]ocument" },
+				{ "<leader>l", group = "[L] Vimtex" }
 			}
 		},
 		keys = {
@@ -196,9 +201,9 @@ require("lazy").setup({
 
 				settings = {
 					ltex = {
-						checkFrequency = 'save',
-						enabled = { 'markdown', 'plaintex', 'rst', 'tex', 'latex' },
-						language = 'de-DE',
+						checkFrequency = "save",
+						enabled = { "markdown", "plaintex", "rst", "tex", "latex" },
+						language = "de-DE",
 					},
 				},
 			})
@@ -281,6 +286,13 @@ vim.api.nvim_create_autocmd("TermClose", {
 -- more keybinds
 vim.keymap.set("i", "<C-k>", vim.lsp.buf.signature_help, { desc = "Show signature help" })
 vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Show diagnostics in loclist" })
+
+-- vimtex
+vim.keymap.set("n", "<leader>ll", "<cmd>VimtexCompile<cr>", { desc = "Vimtex Compile" })
+vim.keymap.set("n", "<leader>li", "<cmd>VimtexInfo<cr>", { desc = "Vimtex Info" })
+vim.keymap.set("n", "<leader>lt", "<cmd>VimtexTocOpen<cr>", { desc = "Vimtex TOC" })
+vim.keymap.set("n", "<leader>lv", "<cmd>VimtexView<cr>", { desc = "Vimtex View" })
+vim.keymap.set("n", "<leader>lc", "<cmd>VimtexClean<cr>", { desc = "Vimtex Clean" })
 
 -- highlight when yanking text
 vim.api.nvim_create_autocmd("TextYankPost", {
