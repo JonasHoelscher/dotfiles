@@ -11,12 +11,6 @@ zstyle :prompt:pure:prompt:success color green
 # Share history in multiple zsh shell
 setopt histignorealldups sharehistory
 
-# Keybindings
-bindkey -v
-
-# History searching key binding
-bindkey '^R' history-incremental-search-backward
-
 # Improve history search
 autoload -U history-search-end
 zle -N history-beginning-search-backward-end history-search-end
