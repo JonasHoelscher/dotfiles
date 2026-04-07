@@ -144,8 +144,8 @@ require("lazy").setup({
         -- main = "nvim-treesitter.configs", 
         opts = {
             ensure_installed = { 
-                "c", "cpp", "python", "rust", "markdown", 
-                "lua", "latex", "markdown_inline" 
+                "c", "cpp", "python", "rust", "markdown",
+                "lua", "latex"
             },
             auto_install = true,
             highlight = {
