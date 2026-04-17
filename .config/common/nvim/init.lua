@@ -327,3 +327,95 @@ function ToggleSpellLang()
 end
 
 vim.keymap.set("n", "<leader>dt", ToggleSpellLang, { desc = "Toggle spelllang (en/de)" })
+
+-- helper function to find project root
+local function get_project_root()
+    local current_file_path = vim.api.nvim_buf_get_name(0)
+    if current_file_path == "" then
+        return vim.fn.getcwd()
+    end
+
+    local root_marker = vim.fs.find({ ".git", "local_run.sh", "pyproject.toml", ".venv", "README.md" }, {
+        upward = true,
+        stop = vim.loop.os_homedir(),
+        path = vim.fs.dirname(current_file_path)
+    })[1]
+
+    if root_marker then
+        return vim.fs.dirname(root_marker)
+    end
+    return vim.fn.getcwd()
+end
+
+-- helper function to send commands to existing terminal
+local function run_command_in_term(cmd)
+    -- 1. Ensure the terminal window is open (logic adapted from your toggle_term)
+    if not (term_win and vim.api.nvim_win_is_valid(term_win)) then
+        if term_buf and vim.api.nvim_buf_is_valid(term_buf) then
+            vim.cmd("vertical botright split")
+            term_win = vim.api.nvim_get_current_win()
+            vim.api.nvim_set_current_buf(term_buf)
+        else
+            vim.cmd("vertical botright vnew | terminal")
+            term_win = vim.api.nvim_get_current_win()
+            term_buf = vim.api.nvim_get_current_buf()
+            vim.bo[term_buf].buflisted = false
+        end
+
+        vim.cmd("vertical resize 55")
+        vim.wo[term_win].number = false
+        vim.wo[term_win].relativenumber = false
+        vim.wo[term_win].signcolumn = "no"
+        vim.wo[term_win].winfixwidth = true
+    end
+
+    -- 2. Focus the terminal window
+    vim.api.nvim_set_current_win(term_win)
+
+    -- 3. Send the command to the terminal job
+    local job_id = vim.b[term_buf].terminal_job_id
+    if job_id then
+        -- Send Ctrl+U (byte 21) to clear the current prompt line just in case, then the command and Enter
+        vim.api.nvim_chan_send(job_id, string.char(21) .. cmd .. "\n")
+    end
+
+    -- 4. Start insert mode so you can see the output and interact
+    vim.cmd("startinsert")
+end
+
+-- build / run if f5 is pressed depending on filetype
+-- python: Run current file
+-- c/c++: Compile project (project_root/build/Makefile)
+vim.keymap.set("n", "<F5>", function()
+    vim.cmd("silent! write")
+    local ft = vim.bo.filetype
+    local file = vim.fn.expand("%")
+    local root = get_project_root()
+
+    if ft == "python" then
+        require("notify")("Running python script: " .. file, "info", { title = "F5: Run" })
+        run_command_in_term("python " .. file)
+
+    elseif ft =="c" or ft == "cpp" then
+        require("notify")("Compiling with Make...", "info", { title = "F5: Build" })
+        run_command_in_term("make -j8 " .. root .. "/build")
+
+    else
+        require("notify")("F5 is not configured for filetype: " .. ft, "warn", { title = "Unconfigured" })
+    end
+end, { desc = "Run script or Compile" })
+
+-- execute local_run.sh in project root
+vim.keymap.set("n", "<F6>", function()
+    vim.cmd("silent! write")
+
+    local root = get_project_root()
+    local script_path = root .. "/local_run.sh"
+
+    if vim.fn.filereadable(script_path) == 1 then
+        require("notify")("Executing local_run.sh...", "info", { title = "F6: Local Run" })
+        run_command_in_term("bash " .. script_path)
+    else
+        require("notify")("No 'local_run.sh' found in: " .. root, "error", { title = "File not found" })
+    end
+end, { desc = "Execute local_run.sh in project root" })
