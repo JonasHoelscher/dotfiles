@@ -1,4 +1,9 @@
 #
+# Fonts & Design
+#
+font pango:monospace 10
+
+#
 # Variables
 #
 set $mod Mod4
@@ -6,10 +11,10 @@ set $left h
 set $down j
 set $up k
 set $right l
-set $term kitty
+set $term foot
+set $browser firefox
+set $filebrowser nemo
 set $menu rofi -show drun
-
-font pango: FiraCode 10
 
 #
 # Includes
@@ -21,7 +26,7 @@ include /etc/sway/config.d/*
 # Startup
 #
 exec_always nm-applet
-exec_always swaybg --image ~/Pictures/Wallpapers/asus-rog-metropolis-3840x2160-19776.jpg
+# exec_always swaybg --image ~/Pictures/Wallpapers/asus-rog-metropolis-3840x2160-19776.jpg
 # Set dark mode for gtk applications
 exec_always gsettings set org.gnome.desktop.interface color-scheme prefer-dark
 exec_always /usr/bin/nextcloud
@@ -39,7 +44,7 @@ bindswitch --reload --locked lid:off output $laptop enable
 exec_always ~/.config/sway/laptop_lid.sh
 
 # LG monitor (desk)
-output DP-9 resolution 1680x1050 pos 0 0
+output HDMI-A-1 resolution 1920x1080 pos 0 0
 
 # HP monitor (desk)
 output DP-10 resolution 2560x1440@60Hz pos 1680 0
@@ -48,9 +53,9 @@ output DP-10 resolution 2560x1440@60Hz pos 1680 0
 # Idle configuration
 #
 exec swayidle -w \
-         timeout 1000 'swaylock -f -c 000000' \
-         timeout 3000 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
-         before-sleep 'swaylock -f -c 000000'
+     timeout 1000 'swaylock -f -c 000000' \
+     timeout 3000 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
+     before-sleep 'swaylock -f -c 000000'
 #
 # This will lock your screen after 1000 seconds of inactivity, then turn off
 # your displays after another 3000 seconds, and turn your screens back on when
@@ -92,8 +97,11 @@ input "13364:2356:Keychron_Keychron_V3_Max" {
 #
 # Basics:
 #
-    # Start a terminal
-    bindsym $mod+Return exec $term
+    # Start apps
+    bindsym $mod+t exec $term
+    bindsym $mod+n exec $filebrowser
+    bindsym $mod+f exec $browser
+
 
     # Kill focused window
     bindsym $mod+Shift+q kill
@@ -173,6 +181,16 @@ input "13364:2356:Keychron_Keychron_V3_Max" {
     bindsym $mod+Shift+0 move container to workspace number 10
     # Note: workspaces can have any name you want, not just numbers.
     # We just use 1-10 as the default.
+
+    workspace $ws1 output DP-9
+
+    # Assign programs
+    assign [app_id="firefox-esr"] workspace $ws1
+    # assign [app_id="foot"] workspace $ws2
+    assign [class="obsidian"] workspace $ws3
+    assign [app_id="element-desktop"] workspace $ws4
+    assign [app_id="thunderbird"] workspace $ws5
+
 #
 # Layout stuff:
 #
@@ -188,7 +206,7 @@ input "13364:2356:Keychron_Keychron_V3_Max" {
     bindsym $mod+e layout toggle split
 
     # Make the current focus fullscreen
-    bindsym $mod+f fullscreen
+    bindsym $mod+Return fullscreen
 
     # Toggle the current focus between tiling and floating mode
     bindsym $mod+Shift+space floating toggle
@@ -234,77 +252,54 @@ mode "resize" {
     bindsym Escape mode "default"
 }
 bindsym $mod+r mode "resize"
+
 #
 # Utilities:
 #
     # Special keys to adjust volume via PulseAudio
-    bindsym --locked XF86AudioMute exec pactl set-sink-mute \@@ toggle
+    bindsym --locked XF86AudioMute exec pactl set-sink-mute \@DEFAULT_SINK@ toggle
     bindsym --locked XF86AudioLowerVolume exec pactl set-sink-volume \@DEFAULT_SINK@ -5%
     bindsym --locked XF86AudioRaiseVolume exec pactl set-sink-volume \@DEFAULT_SINK@ +5%
     bindsym --locked XF86AudioMicMute exec pactl set-source-mute \@DEFAULT_SOURCE@ toggle
+
+    # Special keys to control media via playerctl
+    bindsym --locked XF86AudioPlay exec playerctl play-pause
+    bindsym --locked XF86AudioPause exec playerctl play-pause
+    bindsym --locked XF86AudioPrev exec playerctl previous
+    bindsym --locked XF86AudioNext exec playerctl next
+    bindsym --locked XF86AudioStop exec playerctl stop
+
     # Special keys to adjust brightness via brightnessctl
     bindsym --locked XF86MonBrightnessDown exec brightnessctl set 5%-
     bindsym --locked XF86MonBrightnessUp exec brightnessctl set 5%+
+
     # Special key to take a screenshot with grim
     bindsym Print exec grim
 
+# Start default apps
+exec $browser
+exec obsidian
+exec element-desktop
+exec thunderbird
+
+# Jump to workspace 2
+exec swaymsg workspace $ws2
+exec $term
+
+#
+# Status Bar:
+#
+# Read `man 5 sway-bar` for more information about this section.
 bar {
-    swaybar_command waybar
+    position top
+
+    # When the status_command prints a new line to stdout, swaybar updates.
+    # The default just shows the current date and time.
+    status_command i3status
+
+    colors {
+        statusline #ffffff
+        background #323232
+        inactive_workspace #32323200 #32323200 #5c5c5c
+    }
 }
-
-#
-# Specific window settings
-#
-# Set corect mode for flameshot
-for_window [app_id="flameshot"] border pixel 0, floating enable, fullscreen disable, move absolute position 0 0
-
-#
-# Look and feel
-#
-## Borders
-# Also removes all title bars
-    for_window [class="^.*"] border pixel 3
-    default_border pixel 3
-    default_floating_border pixel 3
-
-    # Hide borders at the edge of the screen
-    hide_edge_borders smart
-
-    # Set colours various window states
-    # Syntax: client.<class> <border> <background> <text> [<indicator> [<child_border>]]
-    # The available classes are:
-        # client.focused: The window that has focus.
-        # client.focused_inactive: The most recently focused view within a container which is not focused.
-        # client.placeholder: Ignored (present for i3 compatibility).
-        # client.unfocused: A view that does not have focus.
-        # client.urgent: A view with an urgency hint. Note: Native Wayland windows do not support urgency. Urgency only works for Xwayland windows.
-    #The meaning of each color is:
-        # border: The border around the title bar.
-        # background: The background of the title bar.
-        # text: The text color of the title bar.
-        # indicator: The color used to indicate where a new view will open. In a tiled container, this would paint the right border of the current view if a new view would be opened to the right.
-        # child_border: The border around the view itself.
-    # The default colors are:
-        # class	        border	background	text    indicator	child_border
-        # background	n/a	    #ffffff     n/a	    n/a	        n/a
-        # focused	    #4c7899	#285577	    #ffffff	#2e9ef4	    #285577
-        # focused_inactive	#333333	#5f676a	#ffffff	#484e50	    #5f676a
-        # unfocused	    #333333	#222222	    #888888	#292d2e	    #222222
-        # urgent	    #2f343a	#900000	    #ffffff	#900000	    #900000
-        # placeholder	#000000	#0c0c0c	    #ffffff	#000000 	#0c0c0c
-    client.focused           #9aa5ce #16161d #c0caf5 #9aa5ce   #9aa5ce
-    client.focused_inactive  #16161d #16161d #c0caf5 #16161d   #16161d
-    client.unfocused         #16161d #16161d #c0caf5 #16161d   #16161d
-## Gaps
-# gaps inner|outer|horizontal|vertical|top|right|bottom|left <amount>
-    # Sets default amount pixels of inner or outer gap
-    # the inner affects spacing around each view
-    # the outer affects the spacing around each workspace
-    # To reduce or remove outer gaps, outer gaps can be set to a negative value.
-    gaps inner 5
-    gaps outer 1
-    gaps top 1
-    gaps bottom 1
-
-    # Hide gaps when there is only 1 window
-    smart_gaps on
