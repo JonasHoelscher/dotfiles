@@ -131,6 +131,7 @@ require("lazy").setup({
                     vim.keymap.set("n", "gd", vim.lsp.buf.definition,opts, { desc = "Goto Definition" })
                     vim.keymap.set("n", "gr", vim.lsp.buf.references,opts, { desc = "Goto Reference" })
                     vim.keymap.set("n", "K", vim.lsp.buf.hover,opts, { desc = "Show Definition" })
+                    vim.keymap.set("n", "ca", vim.lsp.buf.code_action,opts, { desc = "Code Actions" })
                     vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, { desc = "Rename" })
                 end
             })
@@ -159,7 +160,7 @@ require("lazy").setup({
     },
 
     {
-    "lervag/vimtex",
+        "lervag/vimtex",
         lazy = false,
         -- tag = "v2.15", -- uncomment to pin to a specific release
         init = function()
@@ -179,8 +180,9 @@ require("lazy").setup({
 
         opts = {
             load_langs = { "de-DE", "en-US" },
-            -- save to .ltex dir
-            path = ".ltex",
+            init_check = true,
+            -- save to config/ltex dir
+            path = vim.fn.expand("~/.config/ltex"),
         },
 
         config = function(_, opts)
