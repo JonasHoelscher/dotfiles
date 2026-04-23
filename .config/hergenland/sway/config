@@ -14,7 +14,7 @@ set $right l
 set $term foot
 set $browser firefox
 set $filebrowser nemo
-set $menu rofi -show drun
+set $menu rofi -show drun -monitor 1 -theme Monokai
 
 #
 # Includes
@@ -182,7 +182,7 @@ input "13364:2356:Keychron_Keychron_V3_Max" {
     # Note: workspaces can have any name you want, not just numbers.
     # We just use 1-10 as the default.
 
-    workspace $ws1 output DP-9
+    workspace $ws1 output HDMI-A-1
 
     # Assign programs
     assign [app_id="firefox-esr"] workspace $ws1
