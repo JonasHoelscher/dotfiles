@@ -30,6 +30,10 @@ exec_always nm-applet
 # Set dark mode for gtk applications
 exec_always gsettings set org.gnome.desktop.interface color-scheme prefer-dark
 exec_always /usr/bin/nextcloud
+exec_always {
+    eval $(gnome-keyring-daemon --start --components=secrets,ssh)
+    export SSH_AUTH_SOCK
+}
 
 #
 # Output configuration

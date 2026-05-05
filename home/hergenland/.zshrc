@@ -16,5 +16,7 @@ export PATH=$PATH:$HOME/.local/bin
 export LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH
 export QT_QPA_PLATFORM="xcb"
 
+eval "$(ssh-agent -s)"
+
 # opencode
 export PATH=/home/jonasho/.opencode/bin:$PATH
