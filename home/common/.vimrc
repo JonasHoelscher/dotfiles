@@ -117,3 +117,6 @@ colorscheme moonfly
 if has('termguicolors')
   set termguicolors
 endif
+
+" File specific stuff
+autocmd FileType salt setlocal shiftwidth=2 softtabstop=2 expandtab
