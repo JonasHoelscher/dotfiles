@@ -1,4 +1,10 @@
 #
+# Setup DBUS and start gnome keyring
+#
+exec gnome-keyring-daemon --start --components=ssh
+exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
+
+#
 # Fonts & Design
 #
 font pango:monospace 10
@@ -12,7 +18,7 @@ set $down j
 set $up k
 set $right l
 set $term foot
-set $browser firefox
+set $browser chromium
 set $filebrowser nemo
 set $menu rofi -show drun -monitor 1 -theme Monokai
 
@@ -30,7 +36,6 @@ exec_always nm-applet
 # Set dark mode for gtk applications
 exec_always gsettings set org.gnome.desktop.interface color-scheme prefer-dark
 exec_always /usr/bin/nextcloud
-exec --no-startup-id gnome-keyring-daemon --start --components=pkcs11,secrets,ssh
 
 #
 # Output configuration
@@ -186,9 +191,9 @@ input "13364:2356:Keychron_Keychron_V3_Max" {
     workspace $ws1 output HDMI-A-1
 
     # Assign programs
-    assign [app_id="firefox-esr"] workspace $ws1
+    assign [app_id="chromium"] workspace $ws1
     # assign [app_id="foot"] workspace $ws2
-    assign [class="obsidian"] workspace $ws3
+    assign [app_id="obsidian"] workspace $ws3
     assign [app_id="element-desktop"] workspace $ws4
     assign [app_id="thunderbird"] workspace $ws5
 
