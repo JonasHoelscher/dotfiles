@@ -1,10 +1,4 @@
 #
-# Setup DBUS and start gnome keyring
-#
-exec gnome-keyring-daemon --start --components=ssh
-exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
-
-#
 # Fonts & Design
 #
 font pango:monospace 10
@@ -279,8 +273,8 @@ bindsym $mod+r mode "resize"
     bindsym --locked XF86MonBrightnessDown exec brightnessctl set 5%-
     bindsym --locked XF86MonBrightnessUp exec brightnessctl set 5%+
 
-    # Special key to take a screenshot with grim
-    bindsym Print exec grim
+# Special key to take a screenshot with grim
+bindsym $mod+p exec grim -g "$(slurp)" - | wl-copy
 
 # Start default apps
 exec $browser
