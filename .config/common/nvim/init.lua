@@ -213,7 +213,7 @@ require("lazy").setup({
         config = function()
             require("mini.pairs").setup()
         end
-    },
+    }
 })
 
 -- window naviagation
