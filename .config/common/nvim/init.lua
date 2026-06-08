@@ -142,21 +142,22 @@ require("lazy").setup({
     {
         "nvim-treesitter/nvim-treesitter",
         build = ":TSUpdate",
-        -- main = "nvim-treesitter.configs", 
-        opts = {
-            ensure_installed = { 
-                "c", "cpp", "python", "rust", "markdown",
-                "lua", "latex"
-            },
-            auto_install = true,
-            highlight = {
-                enable = true,
-                additional_vim_regex_highlighting = false,
-            },
-            indent = { 
-                enable = true 
-            },
-        },
+        config = function()
+            require("nvim-treesitter.config").setup({
+                ensure_installed = {
+                    "c", "cpp", "python", "rust", "markdown",
+                    "lua", "latex"
+                },
+                auto_install = true,
+                highlight = {
+                    enable = true,
+                    additional_vim_regex_highlighting = false,
+                },
+                indent = {
+                    enabled = true
+                }
+            })
+        end,
     },
 
     {
