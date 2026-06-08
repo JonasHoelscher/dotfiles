@@ -284,6 +284,23 @@ vim.api.nvim_create_autocmd("TermClose", {
         end
 })
 
+-- only format on save when .clang-format is found
+vim.api.nvim_create_autocmd("BufWritePre", {
+    pattern = { "*.cpp", "*.h", "*.c", "*.hpp" },
+    callback = function(args)
+        -- Look out for local .clang-format in current directory
+        local clang_format_found = vim.fs.find(".clang-format", {
+            path = vim.api.nvim_buf_get_name(args.buf),
+            upward = true
+        })[1]
+
+        -- Format on save when file exists
+        if clang_format_found then
+            vim.lsp.buf.format({ bufnr = args.buf, async = false })
+        end
+    end,
+})
+
 -- more keybinds
 vim.keymap.set("i", "<C-k>", vim.lsp.buf.signature_help, { desc = "Show signature help" })
 vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Show diagnostics in loclist" })
