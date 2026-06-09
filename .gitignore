@@ -7,3 +7,6 @@ home/common/.vim/spell/*
 # Tmux files
 home/common/.tmux/plugins/*
 !home/common/.tmux/pluthins/tpm/
+
+# Fonts
+*.ttf
