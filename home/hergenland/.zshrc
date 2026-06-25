@@ -12,6 +12,7 @@ export NVM_DIR="$HOME/.nvm"
 
 # Add to path
 export PATH=$PATH:$HOME/.local/bin
+export PATH=$PATH:/opt/rust/latest/cargo/bin
 
 export LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH
 export QT_QPA_PLATFORM="xcb"
