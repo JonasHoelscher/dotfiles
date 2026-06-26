@@ -113,12 +113,23 @@ require("lazy").setup({
         config = function()
 
             vim.lsp.config("pylsp",{})
+            vim.lsp.config("ruff", {
+                settings = {
+                    python = {
+                        analysis = {
+                            -- Only use for linting
+                            ignore = { '*' }
+                        }
+                    }
+                }
+            })
             vim.lsp.config("clangd",{})
             vim.lsp.config("ltex_plus",{})
             vim.lsp.config("cpptools",{})
             vim.lsp.config("rust_analyzer",{})
 
             vim.lsp.enable("pylsp")
+            vim.lsp.enable("ruff")
             vim.lsp.enable("clangd")
             vim.lsp.enable("ltex_plus")
             vim.lsp.enable("cpptools")
@@ -214,6 +225,11 @@ require("lazy").setup({
         config = function()
             require("mini.pairs").setup()
         end
+    },
+    {
+        "danymat/neogen",
+        config = true,
+        version = "*"
     }
 })
 
@@ -299,6 +315,14 @@ vim.api.nvim_create_autocmd("BufWritePre", {
             vim.lsp.buf.format({ bufnr = args.buf, async = false })
         end
     end,
+})
+
+-- format python
+vim.api.nvim_create_autocmd("BufWritePre", {
+  pattern = "*.py",
+  callback = function()
+    vim.lsp.buf.format({ async = false })
+  end,
 })
 
 -- more keybinds
