@@ -13,6 +13,10 @@ export NVM_DIR="$HOME/.nvm"
 # Add to path
 export PATH=$PATH:$HOME/.local/bin
 export PATH=$PATH:/opt/rust/latest/cargo/bin
+export PATH=$PATH:$HOME/apps/helix/target/opt
+export PATH=$PATH:$HOME/utils/clangd_22.1.6/bin
+export PATH=$PATH:$HOME/utils/texlab/target/release
+export PATH=$PATH:$HOME/utils/ltex-ls-plus-18.7.0/bin
 
 export LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH
 export QT_QPA_PLATFORM="xcb"
@@ -21,3 +25,6 @@ export QT_QPA_PLATFORM="xcb"
 export PATH=/home/jonasho/.opencode/bin:$PATH
 
 export SSH_AUTH_SOCK="/run/user/$(id -u)/keyring/ssh"
+
+# Helix
+export HELIX_RUNTIME=$HOME/apps/helix/runtime
