@@ -7,7 +7,6 @@ vim.o.clipboard = "unnamedplus"
 vim.opt.list = true
 vim.opt.ignorecase = true
 vim.opt.scrolloff = 2
-vim.opt.encoding = "utf-8"
 vim.opt.fileformat = "unix"
 vim.opt.undofile = true
 vim.opt.laststatus = 2
@@ -22,7 +21,6 @@ vim.cmd([[
 -- highlight trailing whitespace
 vim.cmd([[highlight ExtraWhitespace ctermbg=red guibg=red]])
 vim.cmd([[match ExtraWhitespace /\s\+$/]])
-vim.cmd([[highlight BadWhitespace ctermbg=red guibg=red]])
 
 -- indentations
 vim.opt.expandtab = true
@@ -30,6 +28,15 @@ vim.opt.tabstop = 4
 vim.opt.shiftwidth = 4
 vim.opt.softtabstop = 4
 vim.opt.autoindent = true
+
+-- don't auto-continue comment leader on <Enter>/o/O in insert & normal mode
+vim.api.nvim_create_autocmd("FileType", {
+    desc = "Disable automatic comment continuation",
+    pattern = "*",
+    callback = function()
+        vim.opt_local.formatoptions:remove({ "c", "r", "o" })
+    end,
+})
 
 -- bootstrap plugin manager
 local lazypath = vim.fn.stdpath("data").."/lazy/lazy.nvim"
@@ -52,13 +59,17 @@ require("lazy").setup({
 
     -- fuzzy finder
     {
-            "nvim-telescope/telescope.nvim",
+        "nvim-telescope/telescope.nvim",
         dependencies = {"nvim-lua/plenary.nvim"},
         config = function()
             local t = require("telescope.builtin")
             vim.keymap.set("n", "<leader>sf", t.find_files, { desc = "Search files" })
             vim.keymap.set("n", "<leader>sg", t.live_grep, { desc = "Seach file content" })
             vim.keymap.set("n", "<leader><leader>", t.buffers, { desc = "Search buffers" })
+            vim.keymap.set("n", "<leader>ss", t.lsp_document_symbols, { desc = "Search symbols in file" })
+            vim.keymap.set("n", "<leader>sS", t.lsp_dynamic_workspace_symbols, { desc = "Search symbols in project" })
+            vim.keymap.set("n", "<leader>sk", t.keymaps, { desc = "Search keymaps" })
+            vim.keymap.set("n", "<leader>sc", t.commands, { desc = "Search commands" })
         end
     },
 
@@ -96,7 +107,7 @@ require("lazy").setup({
 
             local mr = require("mason-registry")
 
-            local servers = { "python-lsp-server", "clangd", "ltex-ls-plus", "cpptools", "rust-analyzer" }
+            local servers = { "python-lsp-server", "clangd", "ltex-ls-plus" }
 
             for _, name in ipairs(servers) do
                 local pkg = mr.get_package(name)
@@ -107,70 +118,14 @@ require("lazy").setup({
         end
     },
 
-    -- LSP
-    {
-        "neovim/nvim-lspconfig",
-        config = function()
-
-            vim.lsp.config("pylsp",{})
-            vim.lsp.config("ruff", {
-                settings = {
-                    python = {
-                        analysis = {
-                            -- Only use for linting
-                            ignore = { '*' }
-                        }
-                    }
-                }
-            })
-            vim.lsp.config("clangd",{})
-            vim.lsp.config("ltex_plus",{})
-            vim.lsp.config("cpptools",{})
-            vim.lsp.config("rust_analyzer",{})
-
-            vim.lsp.enable("pylsp")
-            vim.lsp.enable("ruff")
-            vim.lsp.enable("clangd")
-            vim.lsp.enable("ltex_plus")
-            vim.lsp.enable("cpptools")
-            vim.lsp.enable("rust_analyzer")
-
-            vim.api.nvim_create_autocmd("LspAttach",{
-                callback = function(ev)
-                    local opts = {buffer = ev.buf}
-
-                    vim.keymap.set("n", "gd", vim.lsp.buf.definition,opts, { desc = "Goto Definition" })
-                    vim.keymap.set("n", "gr", vim.lsp.buf.references,opts, { desc = "Goto Reference" })
-                    vim.keymap.set("n", "K", vim.lsp.buf.hover,opts, { desc = "Show Definition" })
-                    vim.keymap.set("n", "ca", vim.lsp.buf.code_action,opts, { desc = "Code Actions" })
-                    vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, { desc = "Rename" })
-                end
-            })
-        end
-    },
-
     -- treesitter
     {
-        "nvim-treesitter/nvim-treesitter",
-        build = ":TSUpdate",
-        config = function()
-            require("nvim-treesitter.config").setup({
-                ensure_installed = {
-                    "c", "cpp", "python", "rust", "markdown",
-                    "lua", "latex"
-                },
-                auto_install = true,
-                highlight = {
-                    enable = true,
-                    additional_vim_regex_highlighting = false,
-                },
-                indent = {
-                    enabled = true
-                }
-            })
-        end,
+      'nvim-treesitter/nvim-treesitter',
+      lazy = false,
+      build = ':TSUpdate'
     },
 
+    -- LaTeX vim plugin
     {
         "lervag/vimtex",
         lazy = false,
@@ -227,10 +182,70 @@ require("lazy").setup({
         end
     },
     {
-        "danymat/neogen",
-        config = true,
-        version = "*"
+      'mrcjkb/rustaceanvim',
+      version = '^9',
+      lazy = false,
     }
+})
+
+-- treesitter
+require('nvim-treesitter.configs').setup {
+  highlight = {
+    enable = true, -- enable highlighting
+  },
+  indent = {
+    enable = true, -- enable indentation
+  },
+  ensure_installed = { "bash", "javascript", "python", "cpp", "rust" },
+}
+
+-- use native lsp
+vim.lsp.config["lua_ls"] = {
+    cmd = { "lua-language-server" },
+    filetypes = { "lua" },
+    root_markers = { ".git" },
+}
+vim.lsp.enable("lua_ls")
+
+vim.lsp.config["ruff"] = {
+    cmd = { "ruff", "server" },
+    filetypes = { "python" },
+    root_markers = { ".git", "pyproject.toml", "setup.py" },
+    init_options = {
+        settings = {
+        }
+    }
+}
+vim.lsp.enable("ruff")
+
+vim.lsp.config["clangd"] = {
+    filetypes = { "cpp"},
+    root_markers = { ".git", "CMakeLists.txt" }
+}
+vim.lsp.enable("clangd")
+
+vim.lsp.config["ltex_plus"] = {
+    filetypes = { "tex", "typst", "markdown", "restructuredtext" },
+    root_markers = { ".git" },
+    settings = {
+        ltex = {
+            checkFrequency = "save",
+            language = "en-US"
+        }
+    }
+}
+vim.lsp.enable("ltex_plus")
+
+vim.api.nvim_create_autocmd("LspAttach",{
+    callback = function(ev)
+        local opts = {buffer = ev.buf}
+
+        vim.keymap.set("n", "gd", vim.lsp.buf.definition,opts, { desc = "Goto Definition" })
+        vim.keymap.set("n", "gr", vim.lsp.buf.references,opts, { desc = "Goto Reference" })
+        vim.keymap.set("n", "K", vim.lsp.buf.hover,opts, { desc = "Show Definition" })
+        vim.keymap.set("n", "ca", vim.lsp.buf.code_action,opts, { desc = "Code Actions" })
+        vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, { desc = "Rename" })
+    end
 })
 
 -- window naviagation
@@ -317,14 +332,6 @@ vim.api.nvim_create_autocmd("BufWritePre", {
     end,
 })
 
--- format python
-vim.api.nvim_create_autocmd("BufWritePre", {
-  pattern = "*.py",
-  callback = function()
-    vim.lsp.buf.format({ async = false })
-  end,
-})
-
 -- more keybinds
 vim.keymap.set("i", "<C-k>", vim.lsp.buf.signature_help, { desc = "Show signature help" })
 vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Show diagnostics in loclist" })
@@ -349,7 +356,6 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 vim.api.nvim_create_autocmd("FileType", {
     pattern = { "python", "c", "cpp", "rust" },
     callback = function()
-        vim.treesitter.start()
         vim.opt_local.colorcolumn = "80"
     end
 })
@@ -357,20 +363,50 @@ vim.api.nvim_create_autocmd("FileType", {
 -- colorscheme
 vim.cmd("colorscheme habamax")
 
--- add switch for spell check
+-- native (Vim-internal) spellcheck: only active for prose filetypes
 vim.opt.spelllang = { "en" }
+vim.api.nvim_create_autocmd("FileType", {
+    pattern = { "markdown", "tex", "gitcommit" },
+    callback = function()
+        vim.opt_local.spell = true
+    end,
+})
+
 function ToggleSpellLang()
     local current = vim.opt.spelllang:get()[1]
     if current == "en" then
         vim.opt.spelllang = { "de" }
-        require("notify")("Spellcheck set to German")
+        require("notify")("Spellcheck (native) set to German")
     else
         vim.opt.spelllang = { "en" }
-        require("notify")("Spellcheck set to English")
+        require("notify")("Spellcheck (native) set to English")
     end
 end
 
-vim.keymap.set("n", "<leader>dt", ToggleSpellLang, { desc = "Toggle spelllang (en/de)" })
+vim.keymap.set("n", "<leader>dt", ToggleSpellLang, { desc = "Toggle native spellcheck language (en/de)" })
+
+-- separate from native spellcheck: LTeX has its own per-document language.
+-- ltex_extra.nvim provides no built-in switch command, so we patch the running client directly.
+local function set_ltex_language(lang)
+    local clients = vim.lsp.get_clients({ name = "ltex_plus", bufnr = 0 })
+    if #clients == 0 then
+        require("notify")("No active ltex_plus client in this buffer", "warn")
+        return
+    end
+    for _, client in ipairs(clients) do
+        client.config.settings = vim.tbl_deep_extend("force", client.config.settings or {}, {
+            ltex = { language = lang },
+        })
+        client.notify("workspace/didChangeConfiguration", { settings = client.config.settings })
+    end
+    require("notify")("LTeX language set to " .. lang)
+end
+
+vim.keymap.set("n", "<leader>dl", function()
+    vim.ui.select({ "en-US", "de-DE" }, { prompt = "LTeX language:" }, function(choice)
+        if choice then set_ltex_language(choice) end
+    end)
+end, { desc = "Switch LTeX check language" })
 
 -- helper function to find project root
 local function get_project_root()
@@ -463,3 +499,11 @@ vim.keymap.set("n", "<F6>", function()
         require("notify")("No 'local_run.sh' found in: " .. root, "error", { title = "File not found" })
     end
 end, { desc = "Execute local_run.sh in project root" })
+
+-- Auto format rust on save
+vim.api.nvim_create_autocmd("BufWritePre", {
+  pattern = "*.rs",
+  callback = function()
+    vim.lsp.buf.format({ async = false })
+  end,
+})
