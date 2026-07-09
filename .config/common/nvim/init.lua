@@ -27,7 +27,8 @@ vim.opt.expandtab = true
 vim.opt.tabstop = 4
 vim.opt.shiftwidth = 4
 vim.opt.softtabstop = 4
-vim.opt.autoindent = true
+vim.opt.smartindent = false
+-- vim.opt.indentexpr  = "nvim_treesitter#indent()"
 
 -- don't auto-continue comment leader on <Enter>/o/O in insert & normal mode
 vim.api.nvim_create_autocmd("FileType", {
@@ -99,30 +100,18 @@ require("lazy").setup({
         },
     },
 
-    -- mason
-    {
-        "williamboman/mason.nvim",
-        config = function()
-        require("mason").setup()
-
-            local mr = require("mason-registry")
-
-            local servers = { "python-lsp-server", "clangd", "ltex-ls-plus" }
-
-            for _, name in ipairs(servers) do
-                local pkg = mr.get_package(name)
-                if not pkg:is_installed() then
-                    pkg:install()
-                end
-            end
-        end
-    },
-
     -- treesitter
     {
-      'nvim-treesitter/nvim-treesitter',
+      "nvim-treesitter/nvim-treesitter",
       lazy = false,
-      build = ':TSUpdate'
+      build = ":TSUpdate",
+      config = function()
+        require("nvim-treesitter.config").setup({
+          auto_install = true,
+          highlight = { enable = true },
+          indent = { enable = true },
+        })
+      end,
     },
 
     -- LaTeX vim plugin
@@ -180,51 +169,27 @@ require("lazy").setup({
         config = function()
             require("mini.pairs").setup()
         end
-    },
-    {
-      'mrcjkb/rustaceanvim',
-      version = '^9',
-      lazy = false,
     }
 })
 
--- treesitter
-require('nvim-treesitter.configs').setup {
-  highlight = {
-    enable = true, -- enable highlighting
-  },
-  indent = {
-    enable = true, -- enable indentation
-  },
-  ensure_installed = { "bash", "javascript", "python", "cpp", "rust" },
-}
-
 -- use native lsp
-vim.lsp.config["lua_ls"] = {
+vim.lsp.config("lua_ls", {
     cmd = { "lua-language-server" },
     filetypes = { "lua" },
     root_markers = { ".git" },
-}
+})
 vim.lsp.enable("lua_ls")
 
-vim.lsp.config["ruff"] = {
-    cmd = { "ruff", "server" },
-    filetypes = { "python" },
-    root_markers = { ".git", "pyproject.toml", "setup.py" },
-    init_options = {
-        settings = {
-        }
-    }
-}
 vim.lsp.enable("ruff")
+vim.lsp.enable("pyright")
 
-vim.lsp.config["clangd"] = {
+vim.lsp.config("clangd", {
     filetypes = { "cpp"},
     root_markers = { ".git", "CMakeLists.txt" }
-}
+})
 vim.lsp.enable("clangd")
 
-vim.lsp.config["ltex_plus"] = {
+vim.lsp.config("ltex_plus", {
     filetypes = { "tex", "typst", "markdown", "restructuredtext" },
     root_markers = { ".git" },
     settings = {
@@ -233,7 +198,7 @@ vim.lsp.config["ltex_plus"] = {
             language = "en-US"
         }
     }
-}
+})
 vim.lsp.enable("ltex_plus")
 
 vim.api.nvim_create_autocmd("LspAttach",{
@@ -245,6 +210,11 @@ vim.api.nvim_create_autocmd("LspAttach",{
         vim.keymap.set("n", "K", vim.lsp.buf.hover,opts, { desc = "Show Definition" })
         vim.keymap.set("n", "ca", vim.lsp.buf.code_action,opts, { desc = "Code Actions" })
         vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, { desc = "Rename" })
+
+        local client = vim.lsp.get_client_by_id(ev.data.client_id)
+        if client and client.server_capabilities.documentFormattingProvider then
+            vim.bo[ev.buf].formatexpr = "v:lua.vim.lsp.formatexpr()"
+        end
     end
 })
 
@@ -354,9 +324,15 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 
 -- file specfics
 vim.api.nvim_create_autocmd("FileType", {
-    pattern = { "python", "c", "cpp", "rust" },
+    pattern = { "python" },
     callback = function()
-        vim.opt_local.colorcolumn = "80"
+        vim.opt_local.colorcolumn = "81"
+    end
+})
+vim.api.nvim_create_autocmd("FileType", {
+    pattern = { "c", "cpp", "rust" },
+    callback = function()
+        vim.opt_local.colorcolumn = "101"
     end
 })
 
@@ -505,5 +481,12 @@ vim.api.nvim_create_autocmd("BufWritePre", {
   pattern = "*.rs",
   callback = function()
     vim.lsp.buf.format({ async = false })
+  end,
+})
+
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "cpp", "c", "python" },
+  callback = function()
+    vim.treesitter.start()
   end,
 })
