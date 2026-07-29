@@ -195,7 +195,7 @@ vim.lsp.config("ltex_plus", {
     settings = {
         ltex = {
             checkFrequency = "save",
-            language = "en-US"
+            language = "en-GB"
         }
     }
 })
@@ -297,6 +297,23 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 
         -- Format on save when file exists
         if clang_format_found then
+            vim.lsp.buf.format({ bufnr = args.buf, async = false })
+        end
+    end,
+})
+
+-- only format on save when ruff.toml is found
+vim.api.nvim_create_autocmd("BufWritePre", {
+    pattern = { "*.py" },
+    callback = function(args)
+        -- Look out for local .ruff.toml in current directory
+        local ruff_toml_found = vim.fs.find("ruff.toml", {
+            path = vim.api.nvim_buf_get_name(args.buf),
+            upward = true
+        })[1]
+
+        -- Format on save when file exists
+        if ruff_toml_found then
             vim.lsp.buf.format({ bufnr = args.buf, async = false })
         end
     end,
@@ -488,5 +505,45 @@ vim.api.nvim_create_autocmd("FileType", {
   pattern = { "cpp", "c", "python" },
   callback = function()
     vim.treesitter.start()
+  end,
+})
+
+local group = vim.api.nvim_create_augroup("Bibfmt", { clear = true })
+
+vim.api.nvim_create_autocmd("BufWritePre", {
+  group = group,
+  pattern = "*.bib",
+
+  callback = function(args)
+    local bufnr = args.buf
+    local input = vim.api.nvim_buf_get_lines(bufnr, 0, -1, false)
+
+    local output = vim.fn.systemlist(
+      { "bibfmt", "/dev/stdin" },
+      input
+    )
+
+    if vim.v.shell_error ~= 0 then
+      vim.notify(
+        "bibfmt ist fehlgeschlagen:\n"
+          .. table.concat(output, "\n"),
+        vim.log.levels.ERROR
+      )
+      return
+    end
+
+    if not vim.deep_equal(input, output) then
+      local view = vim.fn.winsaveview()
+
+      vim.api.nvim_buf_set_lines(
+        bufnr,
+        0,
+        -1,
+        false,
+        output
+      )
+
+      vim.fn.winrestview(view)
+    end
   end,
 })
