@@ -102,16 +102,12 @@ require("lazy").setup({
 
     -- treesitter
     {
-      "nvim-treesitter/nvim-treesitter",
-      lazy = false,
-      build = ":TSUpdate",
-      config = function()
-        require("nvim-treesitter.config").setup({
-          auto_install = true,
-          highlight = { enable = true },
-          indent = { enable = true },
-        })
-      end,
+        "nvim-treesitter/nvim-treesitter",
+        lazy = false,
+        build = ":TSUpdate",
+        config = function()
+            require("nvim-treesitter").setup()
+        end,
     },
 
     -- LaTeX vim plugin
@@ -501,13 +497,27 @@ vim.api.nvim_create_autocmd("BufWritePre", {
   end,
 })
 
+-- Start treesitter
 vim.api.nvim_create_autocmd("FileType", {
-  pattern = { "cpp", "c", "python" },
-  callback = function()
-    vim.treesitter.start()
-  end,
+    pattern = { "cpp", "c", "lua", "markdown", "rst", "rust", "bib" },
+    callback = function(args)
+        vim.treesitter.start(args.buf)
+    end,
 })
 
+vim.api.nvim_create_autocmd("FileType", {
+    pattern = "python",
+    callback = function(args)
+        vim.treesitter.start(args.buf)
+
+        -- Needed by Neovim's runtime/indent/python.vim to recognize
+        -- strings and comments correctly.
+        vim.bo[args.buf].syntax = "python"
+    end,
+})
+
+
+-- Format BibTeX on save
 local group = vim.api.nvim_create_augroup("Bibfmt", { clear = true })
 
 vim.api.nvim_create_autocmd("BufWritePre", {
