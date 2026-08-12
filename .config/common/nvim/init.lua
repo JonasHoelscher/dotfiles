@@ -181,6 +181,7 @@ vim.lsp.enable("pyright")
 
 vim.lsp.config("clangd", {
     filetypes = { "cpp"},
+    cmd = { "clangd", "--clang-tidy" }
     root_markers = { ".git", "CMakeLists.txt" }
 })
 vim.lsp.enable("clangd")
