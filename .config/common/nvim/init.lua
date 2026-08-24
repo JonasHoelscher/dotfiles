@@ -49,11 +49,42 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
+    -- colorscheme
+    {
+      "rebelot/kanagawa.nvim",
+      config = function()
+        vim.cmd("colorscheme kanagawa-dragon")
+      end
+    },
+    -- status bar
+    {
+        'nvim-lualine/lualine.nvim',
+        dependencies = { 'nvim-tree/nvim-web-devicons' },
+        config = function()
+            require("lualine").setup({
+                options = { theme = 'codedark' },
+            })
+        end
+    },
     -- file tree
     {
         "nvim-tree/nvim-tree.lua",
+        dependencies = {
+            "nvim-tree/nvim-web-devicons",
+        },
         config = function()
-            require("nvim-tree").setup({})
+            require("nvim-tree").setup({
+                renderer = {
+                    icons = {
+                        show = {
+                            file = true,
+                            folder = true,
+                            folder_arrow = true,
+                            git = true,
+                        },
+                    },
+                },
+            })
             vim.keymap.set("n", "<leader>e", "<cmd>NvimTreeToggle<CR>", { desc = "Toggle Filetree" })
         end
     },
@@ -158,13 +189,12 @@ require("lazy").setup({
     {
         "rcarriga/nvim-notify"
     },
-
     {
-        "echasnovski/mini.pairs",
-        version = false,
-        config = function()
-            require("mini.pairs").setup()
-        end
+        'windwp/nvim-autopairs',
+        event = "InsertEnter",
+        config = true
+        -- use opts = {} for passing setup options
+        -- this is equivalent to setup({}) function
     }
 })
 
@@ -181,7 +211,7 @@ vim.lsp.enable("pyright")
 
 vim.lsp.config("clangd", {
     filetypes = { "cpp"},
-    cmd = { "clangd", "--clang-tidy" }
+    cmd = { "clangd", "--clang-tidy" },
     root_markers = { ".git", "CMakeLists.txt" }
 })
 vim.lsp.enable("clangd")
@@ -349,9 +379,6 @@ vim.api.nvim_create_autocmd("FileType", {
         vim.opt_local.colorcolumn = "101"
     end
 })
-
--- colorscheme
-vim.cmd("colorscheme habamax")
 
 -- native (Vim-internal) spellcheck: only active for prose filetypes
 vim.opt.spelllang = { "en" }
@@ -563,3 +590,6 @@ if vim.env.SSH_TTY then
   vim.g.clipboard = "osc52"
   vim.opt.clipboard = "unnamedplus"
 end
+
+-- start lualine
+require('lualine').setup()
