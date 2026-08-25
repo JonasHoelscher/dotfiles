@@ -1,27 +1,137 @@
+# ~/.config/alacritty/alacritty.toml
+
+[general]
+live_config_reload = true
+
+
+# ── Schrift ───────────────────────────────────────────────────────
+
+[font]
+size = 11.5
+builtin_box_drawing = true
+
+[font.normal]
+family = "JetBrainsMono Nerd Font Mono"
+style = "Regular"
+
+[font.bold]
+family = "JetBrainsMono Nerd Font Mono"
+style = "Bold"
+
+[font.italic]
+family = "JetBrainsMono Nerd Font Mono"
+style = "Italic"
+
+[font.bold_italic]
+family = "JetBrainsMono Nerd Font Mono"
+style = "Bold Italic"
+
+
+# ── Fenster ───────────────────────────────────────────────────────
+
 [window]
-dynamic_padding = true
-decorations = "full"
-decorations_theme_variant = "Dark"
+dimensions = { columns = 120, lines = 35 }
 
-[window.dimensions]
-columns = 100
-lines = 30
+# Kein ungenutzter Rand unter Neovim/tmux
+padding = { x = 0, y = 0 }
+dynamic_padding = false
+resize_increments = true
 
-[window.class]
-instance = "Alacritty"
-general = "Alacritty"
+opacity = 0.96
+dynamic_title = true
+
+
+# ── Scrollback ────────────────────────────────────────────────────
 
 [scrolling]
 history = 10000
 multiplier = 3
 
-[font]
-size = 12
 
-[font.normal]
-family = "DejaVu Sans Mono"
-style = "Regular"
+# ── Cursor ────────────────────────────────────────────────────────
 
-[font.bold]
-family = "DejaVu Sans Mono"
-style = "Bold"
+[cursor]
+style = { shape = "Block", blinking = "On" }
+blink_interval = 500
+blink_timeout = 15
+unfocused_hollow = true
+
+
+# ── Auswahl und Maus ──────────────────────────────────────────────
+
+[selection]
+save_to_clipboard = true
+
+[mouse]
+hide_when_typing = true
+
+
+# ── Kanagawa Dragon ───────────────────────────────────────────────
+
+[colors.primary]
+background = "#181616"
+foreground = "#c5c9c5"
+dim_foreground = "#a6a69c"
+bright_foreground = "#c5c9c5"
+
+[colors.cursor]
+text = "#181616"
+cursor = "#c8c093"
+
+[colors.vi_mode_cursor]
+text = "#181616"
+cursor = "#8ea4a2"
+
+[colors.selection]
+text = "#c5c9c5"
+background = "#2d4f67"
+
+[colors.search.matches]
+foreground = "#181616"
+background = "#c4b28a"
+
+[colors.search.focused_match]
+foreground = "#181616"
+background = "#87a987"
+
+[colors.footer_bar]
+foreground = "#c5c9c5"
+background = "#282727"
+
+[colors.normal]
+black   = "#0d0c0c"
+red     = "#c4746e"
+green   = "#8a9a7b"
+yellow  = "#c4b28a"
+blue    = "#8ba4b0"
+magenta = "#a292a3"
+cyan    = "#8ea4a2"
+white   = "#c8c093"
+
+[colors.bright]
+black   = "#a6a69c"
+red     = "#e46876"
+green   = "#87a987"
+yellow  = "#e6c384"
+blue    = "#7fb4ca"
+magenta = "#938aa9"
+cyan    = "#7aa89f"
+white   = "#c5c9c5"
+
+
+# ── Tastenkürzel ──────────────────────────────────────────────────
+
+[keyboard]
+bindings = [
+    # Neues Alacritty-Fenster
+    { key = "Enter", mods = "Control|Shift", action = "CreateNewWindow" },
+
+    # Schriftgröße
+    { key = "+", mods = "Control", action = "IncreaseFontSize" },
+    { key = "-", mods = "Control", action = "DecreaseFontSize" },
+    { key = "0", mods = "Control", action = "ResetFontSize" },
+
+    # Scrollen
+    { key = "PageUp", mods = "Shift", action = "ScrollPageUp" },
+    { key = "PageDown", mods = "Shift", action = "ScrollPageDown" },
+]
