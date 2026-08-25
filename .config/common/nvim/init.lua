@@ -228,6 +228,31 @@ vim.lsp.config("ltex_plus", {
 })
 vim.lsp.enable("ltex_plus")
 
+vim.lsp.config("rust_analyzer", {
+    settings = {
+        ["rust-analyzer"] = {
+            check = {
+                command = "clippy",
+            },
+            imports = {
+                granularity = {
+                    group = "module",
+                },
+                prefix = "self",
+            },
+            cargo = {
+                buildScripts = {
+                    enable = true,
+                },
+            },
+            procMacro = {
+                enable = true
+            },
+        },
+    },
+})
+vim.lsp.enable("rust_analyzer")
+
 vim.api.nvim_create_autocmd("LspAttach",{
     callback = function(ev)
         local opts = {buffer = ev.buf}
