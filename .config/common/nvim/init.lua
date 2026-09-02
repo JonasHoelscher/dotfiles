@@ -21,22 +21,10 @@ vim.cmd([[
 vim.o.clipboard = "unnamedplus"
 if vim.env.SSH_CONNECTION then
     vim.opt.clipboard = ""
+    vim.g.clipboard = "osc52"
 
-    vim.g.clipboard = {
-        name = "OSC 52",
-        copy = {
-            ["+"] = require("vim.ui.clipboard.osc52").copy("+"),
-            ["*"] = require("vim.ui.clipboard.osc52").copy("*"),
-        },
-        paste = {
-            ["+"] = function()
-                return {}
-            end,
-            ["*"] = function()
-                return {}
-            end,
-        },
-    }
+    vim.keymap.set({ "n", "v" }, "<leader>y", '"+y', { desc = "SSH: Yank to lokal pc clipboard" })
+    vim.keymap.set("n", "<leader>Y", '"+Y', { desc = "SSH: Yank to lokal pc clipboard" })
 end
 
 -- highlight trailing whitespace
