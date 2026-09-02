@@ -3,7 +3,6 @@ vim.g.mapleader = " "
 -- basics
 vim.o.number = true
 vim.o.relativenumber = true
-vim.o.clipboard = "unnamedplus"
 vim.opt.list = true
 vim.opt.ignorecase = true
 vim.opt.scrolloff = 2
@@ -17,6 +16,28 @@ vim.cmd([[
     filetype plugin indent on
     syntax enable
 ]])
+
+-- clipboard
+vim.o.clipboard = "unnamedplus"
+if vim.env.SSH_CONNECTION then
+    vim.opt.clipboard = ""
+
+    vim.g.clipboard = {
+        name = "OSC 52",
+        copy = {
+            ["+"] = require("vim.ui.clipboard.osc52").copy("+"),
+            ["*"] = require("vim.ui.clipboard.osc52").copy("*"),
+        },
+        paste = {
+            ["+"] = function()
+                return {}
+            end,
+            ["*"] = function()
+                return {}
+            end,
+        },
+    }
+end
 
 -- highlight trailing whitespace
 vim.cmd([[highlight ExtraWhitespace ctermbg=red guibg=red]])
