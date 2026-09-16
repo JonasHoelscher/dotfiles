@@ -75,6 +75,10 @@ require("lazy").setup({
             })
         end
     },
+    -- better quickfix
+    {
+        "kevinhwang91/nvim-bqf"
+    },
     -- file tree
     {
         "nvim-tree/nvim-tree.lua",
