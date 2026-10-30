@@ -223,7 +223,7 @@ vim.lsp.enable("ruff")
 vim.lsp.enable("pyright")
 
 vim.lsp.config("clangd", {
-    filetypes = { "cpp"},
+    filetypes = { "cpp", "c", "hpp", "h"},
     cmd = { "clangd", "--clang-tidy" },
     root_markers = { ".git", "CMakeLists.txt" }
 })
