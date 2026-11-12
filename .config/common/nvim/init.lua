@@ -165,7 +165,7 @@ require("lazy").setup({
             vim.g.vimtex_view_general_options = "--unique file:@pdf\\#src:@line@tex"
             vim.g.vimtex_compiler_latexmk = {
                 executable = "latexmk",
-                options = { "-pdf", "-shell-escape", "-synctex=1", "-interaction=nonstopmode" },
+                options = { "-lualatex", "-pdf", "-shell-escape", "-synctex=1", "-interaction=nonstopmode" },
             }
         end,
     },
@@ -235,7 +235,7 @@ vim.lsp.config("ltex_plus", {
     settings = {
         ltex = {
             checkFrequency = "save",
-            language = "en-GB"
+            language = "en-US"
         }
     }
 })
